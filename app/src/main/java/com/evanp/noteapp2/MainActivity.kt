@@ -9,6 +9,7 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toolbar
 import androidx.cardview.widget.CardView
+import androidx.fragment.app.add
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -20,42 +21,40 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        var db: NoteDatabase = NoteDatabase(this)
-        var allNotes: ArrayList<Note> = ArrayList<Note>(db.displayAllNotes())
-        var noItemText: TextView = findViewById(R.id.noItemText)
+//        if(savedInstanceState == null){
+//            val fragment = MainFragment()
+//            supportFragmentManager
+//                .beginTransaction()
+//                .add(R.id.mainFragment, fragment)
+//                .commit()
+//        }
 
 
-        val mToolbar: androidx.appcompat.widget.Toolbar = findViewById(R.id.toolbarMain)
-        setSupportActionBar(mToolbar)
-        supportActionBar?.title = "My Notes"
 
-        if(allNotes.isEmpty()){
-            noItemText.setVisibility(View.VISIBLE);
-        }else {
-            noItemText.setVisibility(View.GONE);
-            var mRecyclerView: RecyclerView = findViewById(R.id.recyclerView)
-
-            mRecyclerView.layoutManager = LinearLayoutManager(this)
-            mRecyclerView.adapter = MainAdapter(this, allNotes)
-        }
+//        var db: NoteDatabase = NoteDatabase(this)
+//        var allNotes: ArrayList<Note> = ArrayList<Note>(db.displayAllNotes())
+//        var noItemText: TextView = findViewById(R.id.noItemText)
+//
+//
+//        val mToolbar: androidx.appcompat.widget.Toolbar = findViewById(R.id.toolbarMain)
+//        setSupportActionBar(mToolbar)
+//        supportActionBar?.title = "My Notes"
+//
+//        if(allNotes.isEmpty()){
+//            noItemText.setVisibility(View.VISIBLE);
+//        }else {
+//            noItemText.setVisibility(View.GONE);
+//            var mRecyclerView: RecyclerView = findViewById(R.id.recyclerView)
+//
+//            mRecyclerView.layoutManager = LinearLayoutManager(this)
+//            mRecyclerView.adapter = MainAdapter(this, allNotes)
+//        }
 
     }
 
+//    fun show(mainActivity: MainActivity){
+//        val intent = Intent(this, MainFragment::class.java)
+//        startActivity(intent)
+//    }
 
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.card_view_activity_menu, menu)
-        return super.onCreateOptionsMenu(menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when(item.itemId){
-            R.id.clickToAdd -> {
-                intent = Intent(this, AddNote::class.java)
-                startActivity(intent)
-                true
-            }
-            else-> super.onOptionsItemSelected(item)
-        }
-    }
 }

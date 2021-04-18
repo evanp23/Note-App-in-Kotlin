@@ -23,7 +23,7 @@ class NoteDatabase (var context: Context) : SQLiteOpenHelper(context, DATABASE_N
                 COL_TITLE + " VARCHAR(256), " +
                 COL_CONTENT + " VARCHAR(5000), " +
                 COL_DATE + " TINYTEXT, " +
-                COL_TIME + " TNYTEXT)"
+                COL_TIME + " TINYTEXT)"
         db?.execSQL(createQuery)
     }
 
@@ -32,7 +32,7 @@ class NoteDatabase (var context: Context) : SQLiteOpenHelper(context, DATABASE_N
     }
 
     fun insertData(note: Note){
-        val db: SQLiteDatabase = this.writableDatabase
+        val db: SQLiteDatabase = writableDatabase
         var cv = ContentValues()
         cv.put(COL_TITLE, note.title)
         cv.put(COL_CONTENT, note.content)
@@ -43,7 +43,7 @@ class NoteDatabase (var context: Context) : SQLiteOpenHelper(context, DATABASE_N
         if(result == (-1).toLong()) {
             Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show()
         }else{
-            Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Note Added", Toast.LENGTH_SHORT).show()
         }
 
 
@@ -53,11 +53,12 @@ class NoteDatabase (var context: Context) : SQLiteOpenHelper(context, DATABASE_N
 
         val db: SQLiteDatabase = this.readableDatabase
         val oneNoteQuery: String = "SELECT * FROM $TABLE_NAME WHERE $COL_ID = $noteId"
+        Log.d(DB_TAG, "displayOneNote: Note id passed as: $noteId")
 
 
         var cursor = db.rawQuery(oneNoteQuery, null)
         var noteID: Int = 0
-        var noteTitle: String = "error"
+        var noteTitle: String = "fook"
         var noteContent: String = ""
         var noteDate: String = ""
         var noteTime: String = ""
@@ -71,7 +72,7 @@ class NoteDatabase (var context: Context) : SQLiteOpenHelper(context, DATABASE_N
                 noteDate = cursor.getString(3)
                 noteTime = cursor.getString(4)
 
-                Log.d(DB_TAG, "displayOneNote: found note with title: " + noteTitle)
+                Log.d(DB_TAG, "displayOneNote: found note with title: $noteTitle")
 
 
             }while(cursor.moveToNext())
@@ -122,11 +123,6 @@ class NoteDatabase (var context: Context) : SQLiteOpenHelper(context, DATABASE_N
     }
 
     fun updateData(note: Note){
-//        var noteId: Int = note.id
-//        var newTitle: String = note.title
-//        var newContent: String = note.content
-//        var newDate: String = note.date
-//        var newTime: String = note.time
         val db: SQLiteDatabase = this.writableDatabase
         val noteId: Int = note.id
         val noteTitle: String = note.title
@@ -137,13 +133,6 @@ class NoteDatabase (var context: Context) : SQLiteOpenHelper(context, DATABASE_N
         cv.put(COL_TIME, note.time)
 
         db.update(TABLE_NAME, cv, "id = ?", arrayOf(noteId.toString()))
-
-
-//        //val updateQuery: String = "UPDATE $TABLE_NAME SET $COL_TITLE = $newTitle, " +
-//          //      "$COL_CONTENT = $newContent, $COL_DATE = $newDate, $COL_TIME = $newTime, " +
-//            //    "WHERE $COL_ID = $noteId"
-//
-//        db.execSQL(updateQuery)
         Toast.makeText(this.context, "Note with title: $noteTitle updated.", Toast.LENGTH_SHORT).show()
 
 

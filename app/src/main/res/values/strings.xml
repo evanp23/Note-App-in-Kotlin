@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Note App 2</string>
+    <string name="input_text">
+        Title
+    </string>
+    
 </resources>

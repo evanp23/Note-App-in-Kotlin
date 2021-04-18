@@ -1,5 +1,6 @@
 package com.evanp.noteapp2
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.database.DataSetObserver
@@ -12,13 +13,15 @@ import android.widget.Adapter
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
+import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import org.w3c.dom.Text
 import kotlin.coroutines.coroutineContext
 
 
 class MainAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>{
-    lateinit var layoutInflater: LayoutInflater
+    var layoutInflater: LayoutInflater
     var mNotes: ArrayList<Note> = ArrayList()
     var context: Context
 
@@ -47,7 +50,7 @@ class MainAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>{
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val v = layoutInflater.inflate(R.layout.card_view, parent, false)
+        val v = layoutInflater.inflate(R.layout.fragment_card_view, parent, false)
         return ViewHolder(v)
     }
 
@@ -63,15 +66,17 @@ class MainAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>{
         holder.itemView.findViewById<TextView>(R.id.noteTime).text = mNotes[position].time
 
         holder.itemView.setOnClickListener{v: View ->
-            Toast.makeText(v.context, "Clicked on item with id : " + mNotes[position].id,
-                    Toast.LENGTH_SHORT).show()
 
             val id: Int = mNotes[position].id
+            val action = MainFragmentDirections.actionMainFragmentToViewNoteFragment(id)
+            Navigation.findNavController(v).navigate(action)
 
-            val intent = Intent(context, ViewNote::class.java).apply {
-                    putExtra("id", id)
-            }
-            startActivity(v.context, intent, null)
+
+
+//            val intent = Intent(context, ViewNote::class.java).apply {
+//                    putExtra("id", id)
+//            }
+//            startActivity(v.context, intent, null)
         }
 
     }
